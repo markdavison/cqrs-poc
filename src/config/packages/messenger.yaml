@@ -1,9 +1,21 @@
 framework:
     messenger:
-        default_bus: async.bus
+        default_bus: command.bus
         buses:
-            async.bus:
             event.bus:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - validation
+            query.bus:
+                middleware:
+                    - validation
+            command.bus:
+                middleware:
+                    - validation
+                    - doctrine_transaction
+            asyncCommand.bus:
+                middleware:
+                    - validation
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
@@ -12,5 +24,7 @@ framework:
             sync: 'sync://'
 
         routing:
-            'App\Message\SourceSubjectData': async
+            'App\Command\SourceSubjectDataCommand': async
+            'App\Command\CreateIpCaseCommand': sync
             'App\DomainEvent\IpCaseCreated': sync
+            'App\Query\FindIpCaseByIdQuery': sync

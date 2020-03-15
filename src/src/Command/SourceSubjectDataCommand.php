@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Message;
+namespace App\Command;
 
 
-class SourceSubjectData
+class SourceSubjectDataCommand
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class SourceSubjectData
     private $territory;
 
     /**
-     * SourceSubjectData constructor.
+     * SourceSubjectDataCommand constructor.
      * @param string $ipNumber
      * @param string $territory
      */

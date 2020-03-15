@@ -4,10 +4,9 @@
 namespace App\DomainEventListener;
 
 
+use App\Command\SourceSubjectDataCommand;
 use App\DomainEvent\IpCaseCreated;
 use App\DomainEvent\IpCaseEventInterface;
-use App\Message\SourceSubjectData;
-use App\Repository\IpCaseRepository;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -16,22 +15,22 @@ class SourceSubjectDataListener implements MessageSubscriberInterface
     /**
      * @var MessageBusInterface
      */
-    private $asyncBus;
+    private $asyncCommandBus;
 
-    public function __construct(
-        MessageBusInterface $asyncBus
-    ) {
-        $this->asyncBus = $asyncBus;
+    public function __construct(MessageBusInterface $asyncCommandBus) {
+        $this->asyncCommandBus = $asyncCommandBus;
     }
 
     public function __invoke(IpCaseEventInterface $event)
     {
         $ipCase = $event->getIpCase();
 
-        $this->asyncBus->dispatch(new SourceSubjectData(
+        $this->asyncCommandBus->dispatch(
+            new SourceSubjectDataCommand(
                 $ipCase->getId(),
                 $ipCase->getIpNumber(),
-                $ipCase->getTerritoryCode())
+                $ipCase->getTerritoryCode()
+            )
         );
     }
 

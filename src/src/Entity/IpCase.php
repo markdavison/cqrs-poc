@@ -17,7 +17,6 @@ class IpCase
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="guid")
-     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
