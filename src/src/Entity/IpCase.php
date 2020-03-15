@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\DomainEvent\IpCaseCreated;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IpCase
 {
+    use EventGeneratorTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="guid")
@@ -45,12 +48,14 @@ class IpCase
      * @param $territoryCode
      * @param $caseReference
      */
-    public function __construct(string $ipNumber, string $territoryCode, string $caseReference)
+    public function __construct(string $ipCaseId, string $ipNumber, string $territoryCode, string $caseReference)
     {
+        $this->id = $ipCaseId;
         $this->ipNumber = $ipNumber;
         $this->territoryCode = $territoryCode;
         $this->caseReference = $caseReference;
         $this->subjects = new ArrayCollection();
+        $this->raise(new IpCaseCreated($this));
     }
 
     public function getId(): ?string
@@ -119,19 +124,6 @@ class IpCase
         if (!$this->subjects->contains($subject)) {
             $this->subjects[] = $subject;
             $subject->setIpCase($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubject(Subject $subject): self
-    {
-        if ($this->subjects->contains($subject)) {
-            $this->subjects->removeElement($subject);
-            // set the owning side to null (unless already changed)
-            if ($subject->getIpCase() === $this) {
-                $subject->setIpCase(null);
-            }
         }
 
         return $this;
