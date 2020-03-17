@@ -7,12 +7,17 @@ use App\Entity\EventGeneratorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+/**
+ * The base repository implementation is tied to the third-party
+ * libs we choose to use via its constructor. Concrete implementations
+ * have no third-party dependencies.
+ */
 abstract class BaseRepository implements RepositoryInterface
 {
     /**
      * @var MessageBusInterface
      */
-    private $eventBus;
+    private $dispatcher;
 
     /**
      * @var EntityManagerInterface
@@ -22,14 +27,14 @@ abstract class BaseRepository implements RepositoryInterface
     /**
      * @var string
      */
-    private $entityClass;
+    protected $entityClass;
 
     public function __construct(
-        MessageBusInterface $eventBus,
+        MessageBusInterface $dispatcher,
         EntityManagerInterface $em,
         string $entityClass
     ) {
-        $this->eventBus = $eventBus;
+        $this->dispatcher = $dispatcher;
         $this->em = $em;
         $this->entityClass = $entityClass;
     }
@@ -57,7 +62,6 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->em->find($this->entityClass, $id);
     }
 
-    // arrays for now for simplicity's sake
     public function findBy(array $criteria): ?array
     {
         return $this->em->getRepository($this->entityClass)->findBy($criteria);
@@ -66,7 +70,7 @@ abstract class BaseRepository implements RepositoryInterface
     protected function dispatchEntityEvents(EntityInterface $entity)
     {
         foreach ($entity->popEvents() as $event) {
-            $this->eventBus->dispatch($event);
+            $this->dispatcher->dispatch($event);
         }
     }
 }
