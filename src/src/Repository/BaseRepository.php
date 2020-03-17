@@ -5,7 +5,7 @@ namespace App\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class BaseRepository implements RepositoryInterface
+abstract class BaseRepository implements RepositoryInterface
 {
     private $eventBus;
 
