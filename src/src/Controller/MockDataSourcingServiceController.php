@@ -5,14 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MockDataSourcingServiceController extends AbstractController
+class MockDataSourcingServiceController extends BaseController
 {
     /**
      * @Route("/mock/dataSourcingService", name="mock_data_sourcing_service")
      */
     public function index()
     {
-        sleep(30);
+        sleep(5);
         return $this->json([
             'isDivisional' => false,
             'grantDate' => '2001-01-01',

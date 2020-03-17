@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IpCaseController extends AbstractController
+class IpCaseController extends BaseController
 {
     /**
      * @Route("/ipCase", name="create-ip_case", methods={"POST"})

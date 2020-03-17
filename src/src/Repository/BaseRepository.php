@@ -9,10 +9,19 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 abstract class BaseRepository implements RepositoryInterface
 {
+    /**
+     * @var MessageBusInterface
+     */
     private $eventBus;
 
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
 
+    /**
+     * @var string
+     */
     private $entityClass;
 
     public function __construct(

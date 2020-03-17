@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
+use App\DomainEvent\SubjectCreated;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubjectRepository")
  */
 class Subject implements EntityInterface
 {
+    use EventGeneratorTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="guid")
@@ -22,6 +27,7 @@ class Subject implements EntityInterface
     private $data = [];
 
     /**
+     * @Exclude()
      * @ORM\ManyToOne(targetEntity="App\Entity\IpCase", inversedBy="subjects")
      */
     private $ipCase;
@@ -36,6 +42,7 @@ class Subject implements EntityInterface
         $this->data = $data;
         $this->ipCase = $ipCase;
         $ipCase->addSubject($this);
+        $this->raise(new SubjectCreated($this));
     }
 
 
@@ -61,5 +68,10 @@ class Subject implements EntityInterface
         $this->ipCase = $ipCase;
 
         return $this;
+    }
+
+    public function getIpCase(): IpCase
+    {
+        return $this->ipCase;
     }
 }

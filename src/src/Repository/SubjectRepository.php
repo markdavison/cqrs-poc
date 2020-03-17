@@ -2,49 +2,22 @@
 
 namespace App\Repository;
 
+use App\Controller\BaseController;
 use App\Entity\Subject;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
- * @method Subject|null find($id, $lockMode = null, $lockVersion = null)
- * @method Subject|null findOneBy(array $criteria, array $orderBy = null)
- * @method Subject[]    findAll()
- * @method Subject[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Class SubjectRepository
+ * @package App\Repository
  */
-class SubjectRepository extends ServiceEntityRepository
+class SubjectRepository extends BaseRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Subject::class);
-    }
 
-    // /**
-    //  * @return Subject[] Returns an array of Subject objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function __construct(
+        MessageBusInterface $eventBus,
+        EntityManagerInterface $em
+    ) {
+        parent::__construct($eventBus, $em, Subject::class);
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Subject
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
