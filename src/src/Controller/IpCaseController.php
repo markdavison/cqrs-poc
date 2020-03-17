@@ -27,8 +27,9 @@ class IpCaseController extends AbstractController
     /**
      * @Route("/ipCase/{id}", name="get-ip_case", methods={"GET"})
      */
-    public function getCase(IpCase $ipCase)
+    public function getCase(string $id, IpCaseService $ipCaseService)
     {
+        $ipCase = $ipCaseService->getIpCaseById($id);
         return $this->json($ipCase);
     }
 }

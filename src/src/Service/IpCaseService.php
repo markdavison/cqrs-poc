@@ -34,4 +34,9 @@ class IpCaseService
 
         return $ipCase;
     }
+
+    public function getIpCaseById(string $id)
+    {
+        return $this->ipCaseRepository->find($id);
+    }
 }
