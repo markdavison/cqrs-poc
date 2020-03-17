@@ -7,6 +7,10 @@ namespace App\Service;
 use App\Entity\IpCase;
 use App\Repository\IpCaseRepository;
 
+/**
+ * Core principle: Repository interface has no third-party dependencies.
+ * Any other dependencies are injected through the constructor.
+ */
 class IpCaseService
 {
 

@@ -8,6 +8,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Core principle: the controller is *ONLY* allowed to 
+ * interact with a request, a response and a service.
+ * 
+ * Here we do tie ourselves to Symfony, but this seems acceptable
+ * given the intended simplicity of the controller's role.
+ *
+ * The Route annotation could be removed in favour of a config file.
+ */
 class IpCaseController extends AbstractController
 {
     /**

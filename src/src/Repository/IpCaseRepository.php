@@ -9,9 +9,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class IpCaseRepository extends BaseRepository
 {
     public function __construct(
-        MessageBusInterface $eventBus,
+        MessageBusInterface $dispatcher,
         EntityManagerInterface $em
     ) {
-        parent::__construct($eventBus, $em, IpCase::class);
+        parent::__construct($dispatcher, $em, IpCase::class);
     }
 }
