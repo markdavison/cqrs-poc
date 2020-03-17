@@ -3,38 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\IpCase;
-use App\Message\SourceSubjectData;
-use Doctrine\ORM\EntityManagerInterface;
-use Ramsey\Uuid\Uuid;
+use App\Service\IpCaseService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class IpCaseController extends AbstractController
 {
     /**
      * @Route("/ipCase", name="create-ip_case", methods={"POST"})
      */
-    public function createCase(Request $request, EntityManagerInterface $em, MessageBusInterface $eventBus)
+    public function createCase(Request $request, IpCaseService $ipCaseService)
     {
-        $id = Uuid::uuid4();
-
-        $ipCase = new IpCase(
-            $id,
+        $ipCase = $ipCaseService->createIpCase(
             $request->get('ipNumber'),
             $request->get('territoryCode'),
             $request->get('caseReference')
         );
-
-        $em->persist($ipCase);
-
-        foreach ($ipCase->popEvents() as $event) {
-            $eventBus->dispatch($event);
-        }
-
-        $em->flush();
 
         return $this->json($ipCase);
     }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IpCaseRepository")
  */
-class IpCase
+class IpCase implements EntityInterface
 {
     use EventGeneratorTrait;
 
@@ -48,9 +48,8 @@ class IpCase
      * @param $territoryCode
      * @param $caseReference
      */
-    public function __construct(string $ipCaseId, string $ipNumber, string $territoryCode, string $caseReference)
+    public function __construct(string $ipNumber, string $territoryCode, string $caseReference)
     {
-        $this->id = $ipCaseId;
         $this->ipNumber = $ipNumber;
         $this->territoryCode = $territoryCode;
         $this->caseReference = $caseReference;

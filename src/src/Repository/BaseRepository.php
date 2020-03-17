@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\EntityInterface;
+use App\Entity\EventGeneratorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -41,7 +43,7 @@ abstract class BaseRepository implements RepositoryInterface
         $this->em->flush();
     }
 
-    public function find(string $id)
+    public function find(string $id) :EntityInterface
     {
         return $this->em->find($this->entityClass, $id);
     }
@@ -49,7 +51,7 @@ abstract class BaseRepository implements RepositoryInterface
     // arrays for now for simplicity's sake
     public function findBy(array $criteria): ?array
     {
-        return $this->em->getRepository($entityClass)->findBy($criteria);
+        return $this->em->getRepository($this->entityClass)->findBy($criteria);
     }
 
     protected function dispatchEntityEvents(EntityInterface $entity)

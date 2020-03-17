@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubjectRepository")
  */
-class Subject
+class Subject implements EntityInterface
 {
     /**
      * @ORM\Id

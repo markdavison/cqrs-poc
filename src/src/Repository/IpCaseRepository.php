@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\IpCase;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class IpCaseRepository extends BaseRepository
 {
