@@ -11,5 +11,5 @@ interface RepositoryInterface
     public function find(string $id): EntityInterface;
 
     // arrays for now for simplicity's sake
-    public function findBy(array $criteria): array;
+    public function findBy(array $criteria): ?array;
 }
